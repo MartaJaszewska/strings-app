@@ -1,16 +1,29 @@
+import { Client, QueryResult } from "pg";
 import { loadEnvConfig } from "@next/env";
-import { Client } from "pg";
 
-export function getClient() {
-    const projectDir = process.cwd()
-    loadEnvConfig(projectDir)
+const projectDir = process.cwd();
+loadEnvConfig(projectDir);
 
-    const client = new Client({
-        user: process.env.POSTGRES_USER,
-        host: process.env.POSTGRES_HOST,
-        database: process.env.POSTGRES_DATABASE,
-        password: process.env.POSTGRES_PASSWORD,
-        port: parseInt(process.env.POSTGRES_PORT!),
-      });
-      return client
+export async function getClient(): Promise<Client> {
+  const client = new Client({
+    user: process.env.POSTGRES_USER,
+    host: process.env.POSTGRES_HOST,
+    database: process.env.POSTGRES_DATABASE,
+    password: process.env.POSTGRES_PASSWORD,
+    port: parseInt(process.env.POSTGRES_PORT!),
+  });
+  return client;
+}
+
+export async function sql(
+  sql: string,
+  values?: Array<any>
+): Promise<QueryResult<any>> {
+  const client = await getClient();
+  await client.connect();
+
+  const res = await client.query(sql, values);
+
+  await client.end();
+  return res;
 }

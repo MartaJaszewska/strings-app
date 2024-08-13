@@ -1,19 +1,19 @@
 import { faker } from "@faker-js/faker";
-import bcrypt from "bcrypt"
+import bcrypt from "bcrypt";
 import { getClient } from "@/db";
 
 async function loadFakeData(numUsers: number = 10) {
   console.log(`executing load fake data. generating ${numUsers} users.`);
 
-  const client = getClient()
+  const client = await getClient();
 
   await client.connect();
   try {
     await client.query("begin");
 
     for (let i = 0; i < numUsers; i++) {
-      const saltRound = 10;
-      const hash = await bcrypt.hash("string123", saltRound)
+      const saltRounds = 10;
+      const hash = await bcrypt.hash("strings123", saltRounds);
 
       await client.query(
         "insert into public.users (username, password, avatar) values ($1, $2, $3)",
