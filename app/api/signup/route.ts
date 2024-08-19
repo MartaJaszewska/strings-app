@@ -11,7 +11,7 @@ export async function POST(request: Request) {
   );
   console.log("SIGN UP", res.rowCount);
 
-  if (res.rowCount > 0) {
+  if (res.rowCount && res.rowCount > 0) {
     console.log("if", res.rowCount > 0);
 
     return NextResponse.json({ error: "user already exist" }, { status: 400 });
