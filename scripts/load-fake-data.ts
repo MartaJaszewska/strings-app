@@ -25,7 +25,6 @@ async function loadFakeData(numUsers: number = 10) {
       "select id from public.users order by created_at desc limit $1",
       [numUsers]
     );
-    console.log(res.rows);
 
     for (const row of res.rows) {
       for (let i = 0; i < Math.ceil(Math.random() * 50); i++) {
