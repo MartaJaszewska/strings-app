@@ -10,6 +10,7 @@ export async function POST(request: Request) {
     "select id, username, password from users where username ilike $1",
     [json.username]
   );
+  console.log("LOGIN", res.rowCount);
 
   if (res.rowCount == 0) {
     return NextResponse.json({ error: "user not found" }, { status: 404 });

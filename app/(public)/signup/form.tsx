@@ -1,23 +1,30 @@
 "use client";
-import { useRouter } from "next/navigation";
 import React, { FormEvent, useState } from "react";
 
 function Form() {
-  const router = useRouter();
   const [username, setUsername] = useState<undefined | string>("");
   const [password, setPassword] = useState<undefined | string>("");
+  const [confirmPassword, setConfirmPassword] = useState<undefined | string>(
+    ""
+  );
+  const [errors, setErrors] = useState<string[]>([]);
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
-    const res = await fetch("api/login", {
+    setErrors([]);
+    if (password != confirmPassword) {
+      errors.push("Passwords do not match");
+      return;
+    }
+    const res = await fetch("api/signup", {
       method: "post",
       body: JSON.stringify({ username, password }),
     });
 
     if (res.ok) {
-      router.push("/feed");
+      window.location.href = "/signin";
     } else {
-      alert("log in failed");
+      alert("sign up failed");
     }
   }
 
@@ -27,13 +34,13 @@ function Form() {
       className="flex flex-col gap-2 p-5 max-w-xs w-full bg-slate-800 rounded-lg"
     >
       <div className="text-center">
-        <h3 className="font-semibold">Sign In</h3>
+        <h3 className="font-semibold">Sign Up</h3>
       </div>
       <div className="my-3">
         <hr />
       </div>
       <div>
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 my-1">
           <label>Username</label>
           <input
             className="text-black p-3 border border-slate-700 rounded-lg"
@@ -46,7 +53,7 @@ function Form() {
             value={username}
           />
         </div>
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 my-1">
           <label>Password</label>
           <input
             className="text-black p-3 border border-slate-700 rounded-lg"
@@ -58,12 +65,24 @@ function Form() {
             value={password}
           />
         </div>
+        <div className="flex flex-col gap-2 my-1">
+          <label>Confirm Password</label>
+          <input
+            className="text-black p-3 border border-slate-700 rounded-lg"
+            type="password"
+            id="confirm-password"
+            placeholder="Confirm password"
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            required
+            value={confirmPassword}
+          />
+        </div>
       </div>
       <button
         type="submit"
         className="mt-4 bg-slate-900 text-white p-3 rounded-lg"
       >
-        Sign In
+        Sign Up
       </button>
     </form>
   );
