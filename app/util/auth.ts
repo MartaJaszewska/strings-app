@@ -1,5 +1,4 @@
 import { jwtVerify } from "jose";
-import PageLoader from "next/dist/client/page-loader";
 import { cookies } from "next/headers";
 
 export async function getJWTPayload() {
