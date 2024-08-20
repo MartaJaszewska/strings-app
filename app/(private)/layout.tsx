@@ -4,7 +4,7 @@ import { SWRConfig } from "swr";
 import fetcher from "../util/fetcher";
 import Footer from "./footer";
 import Header from "./header";
-import Navbar from "./navbar";
+import NavBar from "./navbar";
 
 export default function PrivateLayout({
   children,
@@ -12,11 +12,13 @@ export default function PrivateLayout({
   children: React.ReactNode;
 }) {
   return (
-    <SWRConfig value={{ fetcher }}>
-      <div>
+    <SWRConfig value={{ fetcher: fetcher }}>
+      <div className="flex flex-col min-h-screen max-w-md m-auto items-center justify-center">
         <Header />
-        <Navbar />
-        <main>{children}</main>
+        <NavBar />
+        <main className="w-full p-5 bg-slate-800 rounded-lg my-2">
+          {children}
+        </main>
         <Footer />
       </div>
     </SWRConfig>
