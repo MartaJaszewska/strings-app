@@ -9,11 +9,8 @@ export async function POST(request: Request) {
     "select id, username from users where username ilike $1",
     [json.username]
   );
-  console.log("SIGN UP", res.rowCount);
 
   if (res.rowCount && res.rowCount > 0) {
-    console.log("if", res.rowCount > 0);
-
     return NextResponse.json({ error: "user already exist" }, { status: 400 });
   }
   const saltRounds = 10;
