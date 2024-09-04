@@ -9,7 +9,6 @@ export async function GET(request: Request) {
   const limit = 10;
   const offset = page * limit;
   const jwtPayload = await getJWTPayload();
-  console.log(jwtPayload);
   const res = await sql(
     `select p.*, u.username, u.avatar from posts p 
     inner join users u on p.user_id = u.id where user_id in 

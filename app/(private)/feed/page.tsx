@@ -1,7 +1,11 @@
-export default function Feed() {
+"use client";
+import FeedContainer from "./feed-container";
+
+export default async function Feed() {
   return (
-    <div>
+    <main>
       <h2>Feed</h2>
-    </div>
+      <FeedContainer />
+    </main>
   );
 }
