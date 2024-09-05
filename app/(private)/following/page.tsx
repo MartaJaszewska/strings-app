@@ -1,7 +1,11 @@
-export default function Feed() {
+"use client";
+import FollowingContainer from "./following-container";
+
+export default async function Following() {
   return (
-    <div>
+    <main>
       <h2>Following</h2>
-    </div>
+      <FollowingContainer />
+    </main>
   );
 }
